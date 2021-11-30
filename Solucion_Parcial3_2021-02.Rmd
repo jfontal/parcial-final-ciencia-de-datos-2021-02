@@ -1,0 +1,86 @@
+---
+title: "Solucion_Tercer parcial"
+author: "Luis Parra, Javier Fontalvo, Diego Reyes"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: kable
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+### Solucion Parcial 3: Data science for Healthcare
+
+*Introducción*
+
+Los hospitales diariamente reciben muchos pacientes los cuales no pueden ser tratados en la sede, por lo cual se les diagnostica, y remiten a otros hospitales, las bases de datos con las que llevan control poseen datos muy importantes para la estadística de dicho hospital y en este caso hipotético se necesita saber cuál es la E.P.S que con mayor frecuencia sus pacientes necesitan remisión.
+
+### *Punto 1:* Referenciar la fuente donde extrajo el dataset, Defina su pregunta de investigación y ¿Qué conclusiones espera obtener del análisis de sus datos? . **(10 Puntos)**
+
+Javier Fontalvo: La base de datos fue obtenida de una fuente externa, a través de un contacto en el sector salud, de la base de datos escogida, se puede ver las diferentes remisiones ocurridas a través del año 2020 en un hospital de primer nivel en la zona del Urabá antioqueño, donde se puede ver a que ciudades fueron remitidos los pacientes, con que diagnósticos, a que eps pertenecen, etc.
+
+Se espera ver la cantidad de remisiones que tuvo cada una de las eps en el año 2020.
+
+### La pregunta que nos gustaría averiguar seria *¿Qué eps tiene más a tendencia a que la remisión se aceptada?*
+
+Cargar librerías 
+```{r, warning= FALSE, message = FALSE }
+#Luis Parra
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(hrbrthemes)
+```
+
+### *Punto 2:* Carga y preprocesamiento de los datos. **(10 Puntos)**
+
+```{r, heart, warning= FALSE, message = FALSE }
+#Luis Parra:
+Remisiones_del_hospital <- read_excel("C:/Users/pluis/OneDrive - UNIVERSIDAD AUTONOMA DEL CARIBE/Remisiones del hospital.xlsx")
+View(Remisiones_del_hospital) 
+Remisiones_del_hospital <- as.data.frame(Remisiones_del_hospital)
+glimpse(Remisiones_del_hospital)
+str(Remisiones_del_hospital)
+summary(Remisiones_del_hospital)
+```
+
+### *Punto 3:* Transformando los datos. **(15 puntos)**
+
+Luis Parra Pacheco: Como la pregunta de investigación es ver la cantidad de remisiones que tuvo cada eps, lo primero que se hace es crear un nuevo objeto que almacena las eps que son de tipo String, luego convertirlo a factor, reemplazar los valores del dataframe original por los ya procesados y aplicar un summary a la columna de eps y muestra las cantidades que tiene cada eps.
+```{r}
+glimpse(Remisiones_del_hospital)
+str(Remisiones_del_hospital)
+summary(Remisiones_del_hospital)
+E.P.S <- Remisiones_del_hospital$E.P.S
+E.P.S <- as.factor(E.P.S)
+Remisiones_del_hospital$E.P.S <- E.P.S
+summary(Remisiones_del_hospital$E.P.S)
+```
+
+### *Punto 4:* Visualizar y resumir los datos. **(25 puntos)**
+
+Luis Parra Pacheco: Se utilizo Barplot para graficar los factores de la columna E.P.S donde se visualizó un claro ganador.
+
+```{r}
+barplot(table(Remisiones_del_hospital$E.P.S),
+        main="Frecuencia de Remisiones",
+        xlab="E.P.S",
+        ylab="Remisiones",
+        col="blue",
+        density=20)
+
+```
+
+
+
+
+
+### *Punto 5:* Conclusiones. **(40 puntos)**
+
+Resuma su pregunta de investigación y sus hallazgos a continuación.
+
+Diego Reyes Serpa: Nuestra pregunta de investigación fue simple y certera de una base de datos de remisiones medicas en un hospital de montería queríamos determinar y hallar cual era la EPS con mayor cantidad de remisiones durante el tiempo de estudio de la muestra. Los resultados hallados muestran el predominio de dos Eps Savia Salud y Nueva Eps, esta última fue formada hace poco tiempo, pero incluso así presenta una gran cantidad de miembros; otro hallazgo que resulto fuera de lo esperado es que no hubo un gran número de remisiones por parte del Sisbén, esperábamos encontrar mayor cantidad de remisiones esto debido a que esta cerca de un área rural y la gran mayoría de esta población están suscritos al Sisbén pero resultaron siendo muy escasas las remisiones por parte del Sisbén
+
+Los hallazgos que encontramos en nuestro reporte de remisiones de las distintas EPS fueron satisfactorios además de ser esperados debido a que en el lugar que fueron seleccionadas las muestras la EPS que más acompañamiento y planes promocionales para las personas es “Savia Salud” por lo tanto se esperaba que esta fuera la que presentar mayor cantidad de remisiones al hospital seleccionado, si las muestras hubieran sido tomadas en otro lugar se esperaría un resultado diferente pero teniendo en cuenta lo antes mencionado estamos de acuerdo que era un resultado esperado además de predecible.
